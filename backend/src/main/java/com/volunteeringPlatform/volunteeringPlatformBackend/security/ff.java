@@ -1,46 +1,44 @@
-package com.volunteeringPlatform.volunteeringPlatformBackend.security;
+package com.volunteeringPlatform.volunteeringPlatformBackend.service;
 
-import com.handson.volunteering.model.User;
-import com.handson.volunteering.model.Role;
-import com.handson.volunteering.repository.UserRepository;
-import com.handson.volunteering.security.JwtService;
+import com.volunteeringPlatform.volunteeringPlatformBackend.dto.AuthRequest;
+import com.volunteeringPlatform.volunteeringPlatformBackend.dto.AuthResponse;
+import com.volunteeringPlatform.volunteeringPlatformBackend.dto.RegisterRequest;
+import com.volunteeringPlatform.volunteeringPlatformBackend.model.Role;
+import com.volunteeringPlatform.volunteeringPlatformBackend.model.User;
+import com.volunteeringPlatform.volunteeringPlatformBackend.repository.UserRepository;
+import com.volunteeringPlatform.volunteeringPlatformBackend.security.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final JwtUtil jwtUtil;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
-    }
-
-    public String register(String name, String email, String password) {
-        if (userRepository.findByEmail(email).isPresent()) {
-            throw new RuntimeException("Email already registered");
-        }
+    public void register(RegisterRequest request) {
         User user = new User();
-        user.setName(name);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.USER);
-        userRepository.save(user);
+        user.setSkills(request.getSkills());
+        user.setCauses(request.getCauses());
 
-        return jwtService.generateToken(email);
+        userRepository.save(user);
     }
 
-    public String login(String email, String password) {
-        User user = userRepository.findByEmail(email)
+    public AuthResponse authenticate(AuthRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
-        return jwtService.generateToken(email);
+        String token = jwtUtil.generateToken(user.getEmail());
+        return new AuthResponse(token);
     }
 }
