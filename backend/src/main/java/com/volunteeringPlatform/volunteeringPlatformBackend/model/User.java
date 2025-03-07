@@ -11,7 +11,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +26,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, unique = true)
     private String username;
 
     @Column(nullable = false, unique = true, length = 255)
@@ -41,9 +40,13 @@ public class User implements UserDetails {
     private Role role = Role.USER;
 
     @ElementCollection
+    @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "skill")
     private List<String> skills;
 
     @ElementCollection
+    @CollectionTable(name = "user_causes", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "cause")
     private List<String> causes;
 
     @Column(nullable = false, updatable = false)
@@ -57,7 +60,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return "";
+        return this.username;
     }
 
     @Override
