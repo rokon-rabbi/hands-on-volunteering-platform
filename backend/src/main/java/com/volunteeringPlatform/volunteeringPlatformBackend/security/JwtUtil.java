@@ -57,4 +57,8 @@ public class JwtUtil {
                 .getPayload();
         return claimsResolver.apply(claims);
     }
+
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
 }
