@@ -5,7 +5,7 @@ import { useAuth } from "../context/authContext";
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { login } = useAuth();
+    const { login, user } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -14,8 +14,8 @@ const Login = () => {
         const isLoggedIn = await login(email, password);
 
         if (isLoggedIn) {
-            console.log("Successfully logged in!");
-            navigate("/dashboard");
+            console.log("Successfully logged in!", user);
+            navigate("/dashboard");  // Redirect after successful login
         } else {
             console.warn("Login failed! Redirecting to register...");
             navigate("/register");

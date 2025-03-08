@@ -20,7 +20,7 @@ public class VolunteeringPlatformBackendApplication {
 				registry.addMapping("/**")
 						.allowedHeaders("*")
 						.allowedMethods("GET", "POST", "DELETE", "PUT")
-						.allowedOrigins("http://localhost:5173")  // Remove trailing slash
+						.allowedOriginPatterns("*")
 						.allowCredentials(true);
 			}
 		};
