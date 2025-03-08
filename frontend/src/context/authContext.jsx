@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 
+const API_BASE_URL = "http://localhost:8080/api/auth";
+
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
@@ -10,19 +12,26 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem("token");
         if (token) {
             axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-            axios.get("/api/auth/me").then(({ data }) => setUser(data)).catch(() => logout());
+            axios.get(`${API_BASE_URL}/me`)
+                .then(({ data }) => setUser(data))
+                .catch(() => logout());
         }
     }, []);
 
     const login = async (email, password) => {
         try {
-            const { data } = await axios.post("/api/auth/login", { email, password });
+            const { data } = await axios.post(`${API_BASE_URL}/login`, { email, password });
             localStorage.setItem("token", data.token);
             axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
-            const res = await axios.get("/api/auth/me");
+
+            const res = await axios.get(`${API_BASE_URL}/me`);
             setUser(res.data);
+
+            console.log("Login successful:", res.data);
+            return true;
         } catch (error) {
             console.error("Login failed", error);
+            return false;
         }
     };
 
