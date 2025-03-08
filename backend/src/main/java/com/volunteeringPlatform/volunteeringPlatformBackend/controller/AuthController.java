@@ -38,28 +38,22 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
-        // Check if the role is null or empty, if so set to default role
-        if (registerRequest.getRole() == null || registerRequest.getRole().isEmpty()) {
-            registerRequest.setRole("USER");  // Default to USER if no role is provided
-        }
 
-        // Convert role from String to Role enum
+        if (registerRequest.getRole() == null || registerRequest.getRole().isEmpty()) {
+            registerRequest.setRole("USER");
+        }
         Role role;
         try {
             role = Role.valueOf(registerRequest.getRole().toUpperCase());  // Convert role string to enum
         } catch (IllegalArgumentException e) {
-            // Handle invalid role if the provided role doesn't match any enum
-            return ResponseEntity.badRequest().body("Invalid role provided.");
-        }
 
-        // Create and populate the User object
+            return ResponseEntity.badRequest().body("Invalid role provided.");}
+
         User user = new User();
         user.setUsername(registerRequest.getUsername());
         user.setEmail(registerRequest.getEmail());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword())); // Encrypt password
-        user.setRole(role);  // Set role
-
-        // Save the user
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setRole(role);
         userRepository.save(user);
 
         return ResponseEntity.ok("User registered successfully");

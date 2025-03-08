@@ -26,7 +26,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-
     @Column(nullable = false, unique = true)
     private String username;
 
@@ -40,12 +39,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Role role = Role.USER;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "skill")
     private List<String> skills;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_causes", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "cause")
     private List<String> causes;
@@ -60,14 +59,8 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getUsername() {
-        return this.username;
-    }
-
-    @Override
     public boolean isAccountNonExpired() {
-        return true;
-    }
+        return true;}
 
     @Override
     public boolean isAccountNonLocked() {

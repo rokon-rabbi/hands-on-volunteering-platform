@@ -8,8 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Service
-public class UserService {
+@Service public class UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -22,18 +21,18 @@ public class UserService {
         if (userRepository.findByUsername(registerRequest.getUsername()).isPresent()) {
             throw new IllegalStateException("Username already taken");
         }
+
         if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
             throw new IllegalStateException("Email already taken");
         }
-
         String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
 
-        Role role = Role.USER;  // Default role
+        Role role = Role.USER;
         if (registerRequest.getRole() != null && !registerRequest.getRole().isEmpty()) try {
-            role = Role.valueOf(registerRequest.getRole().toUpperCase()); // Convert String to Enum
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid role provided. Allowed: USER, ADMIN, SUPER_ADMIN");
-        }
+                role = Role.valueOf(registerRequest.getRole().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid role provided. Allowed: USER, ADMIN, SUPER_ADMIN");
+            }
 
         User user = new User();
         user.setUsername(registerRequest.getUsername());
@@ -41,6 +40,5 @@ public class UserService {
         user.setPassword(encodedPassword);
         user.setSkills(registerRequest.getSkills());
         user.setCauses(registerRequest.getCauses());
-        user.setRole(role);return userRepository.save(user);
-    }
-}
+        user.setRole(role);
+        return userRepository.save(user);}}
