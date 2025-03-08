@@ -33,16 +33,18 @@ public class AuthController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
-            UserDetails user = userRepository.findByEmail(request.getEmail())
+            User user = userRepository.findByEmail(request.getEmail())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
-            String token = jwtUtil.generateToken(user.getUsername());
-            return ResponseEntity.ok(new AuthResponse(token));
+            String token = jwtUtil.generateToken(user.getEmail());
+
+            return ResponseEntity.ok(new AuthResponse(token, user.getUsername(), user.getEmail(), user.getRole()));
 
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(401).body("Invalid email or password.");
         }
     }
+
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {

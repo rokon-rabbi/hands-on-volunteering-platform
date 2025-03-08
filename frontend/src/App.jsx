@@ -1,17 +1,12 @@
+import { AuthProvider } from "./context/authContext";
+import AppRouter from "./router/Router";
+
+const App = () => (
+  <AuthProvider>
+    <AppRouter />
+  </AuthProvider>
 
 
-import './App.css'
+);
 
-function App() {
-
-
-  return (
-    <>
-      <h1 className="text-3xl font-bold text-rose-600 underline">
-        Hello world!
-      </h1>
-    </>
-  )
-}
-
-export default App
+export default App;
