@@ -7,6 +7,7 @@ import Register from "../components/Register";
 const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
     { path: "/register", element: <Register /> },
+    { path: "/dashboard", element: <UserDashboard /> }
 
 ]);
 
