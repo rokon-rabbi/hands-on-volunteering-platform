@@ -1,44 +1,41 @@
-import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router";
-
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import Unauthorized from "../components/Unauthorized";
-import { useAuth } from "../context/AuthContext";
 import UserDashboard from "../components/UserDashboard";
-
-
-
-const ProtectedRoute = ({ role }) => {
-    const { user } = useAuth();
-
-    if (!user) {
-        return <Navigate to="/login" />;
-    }
-
-    if (role && user.role !== role) {
-        return <Navigate to="/unauthorized" />;
-    }
-
-    return <Outlet />;
-};
+import SuperAdminPanel from "../components/SuperAdminPanel";
+import NotFound from "../components/NotFound";
+import { UserRoute, AdminRoute, SuperAdminRoute } from "./ProtectedRoute";
+import AdminPanel from "../components/AdminPanel";
 
 const router = createBrowserRouter([
     { path: "/login", element: <Login /> },
     { path: "/register", element: <Register /> },
-
-
-    {
-        path: "/dashboard",
-        element: <ProtectedRoute role="USER" />,
-        children: [
-            { path: "", element: <UserDashboard /> },
-        ],
-    },
-
-
     { path: "/unauthorized", element: <Unauthorized /> },
 
-    { path: "/", element: <Navigate to="/login" /> },
+    // ✅ USER-ONLY Route
+    {
+        path: "/dashboard",
+        element: <UserRoute />,
+        children: [{ path: "", element: <UserDashboard /> }]
+    },
+
+    // ✅ ADMIN-ONLY Route
+    {
+        path: "/admin",
+        element: <AdminRoute />,
+        children: [{ path: "", element: <AdminPanel /> }]
+    },
+
+    // ✅ SUPER_ADMIN-ONLY Route
+    {
+        path: "/super-admin",
+        element: <SuperAdminRoute />,
+        children: [{ path: "", element: <SuperAdminPanel /> }]
+    },
+
+    // 🔹 Catch-All Route for Unknown Pages
+    { path: "*", element: <NotFound /> },
 ]);
 
 const AppRouter = () => <RouterProvider router={router} />;

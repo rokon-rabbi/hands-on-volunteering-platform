@@ -1,54 +1,64 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
 
-const API_BASE_URL = "http://localhost:8080/api/auth";
-
-const AuthContext = createContext(null);
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => {
+        const storedUser = localStorage.getItem("user");
+        return storedUser ? JSON.parse(storedUser) : null;
+    });
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-            // Retrieve user details from localStorage
-            const storedUser = JSON.parse(localStorage.getItem("user"));
-            if (storedUser) {
-                setUser(storedUser);
+        const syncAuth = (event) => {
+            if (event.key === "user") {
+                const newUser = event.newValue ? JSON.parse(event.newValue) : null;
+                setUser(newUser);
             }
-        }
+        };
+
+        window.addEventListener("storage", syncAuth);
+        return () => window.removeEventListener("storage", syncAuth);
     }, []);
 
     const login = async (email, password) => {
         try {
-            const { data } = await axios.post(`${API_BASE_URL}/login`, { email, password });
+            const response = await fetch("http://localhost:8080/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
 
-            // Store token
-            localStorage.setItem("token", data.token);
-            axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+            if (!response.ok) {
+                console.error("Login failed!");
+                return null;
+            }
 
-            // Store user details in state and localStorage
-            const userData = { username: data.username, email: data.email, role: data.role };
-            localStorage.setItem("user", JSON.stringify(userData));
-            setUser(userData);
+            const data = await response.json();
+            const { token, username, role } = data;
+            const newUser = { username, email, role };
+            localStorage.setItem("token", token);
+            localStorage.setItem("user", JSON.stringify(newUser));
+            setUser(newUser);
 
-            console.log("Login successful:", userData);
-            return true;
+            return newUser;
         } catch (error) {
-            console.error("Login failed", error);
-            return false;
+            console.error("Error during login:", error);
+            return null;
         }
     };
 
     const logout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        axios.defaults.headers.common["Authorization"] = "";
         setUser(null);
+        window.dispatchEvent(new Event("storage"));
     };
 
-    return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={{ user, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 export const useAuth = () => useContext(AuthContext);

@@ -5,22 +5,30 @@ import { useAuth } from "../context/AuthContext";
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { login, user } = useAuth();
+    const { login } = useAuth();
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const isLoggedIn = await login(email, password);
+        const loggedInUser = await login(email, password);
 
-        if (isLoggedIn) {
-            console.log("Successfully logged in!", user);
-            navigate("/dashboard");  // Redirect after successful login
+        if (loggedInUser) {
+
+            if (loggedInUser.role === "USER") {
+                navigate("/dashboard");
+            } else if (loggedInUser.role === "SUPER_ADMIN") {
+                navigate("/super-admin");
+            } else {
+                navigate("/unauthorized");
+            }
         } else {
             console.warn("Login failed! Redirecting to register...");
             navigate("/register");
         }
     };
+
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -32,6 +40,7 @@ const Login = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Email"
                     className="mb-2 p-2 w-full border"
+                    required
                 />
                 <input
                     type="password"
@@ -39,6 +48,7 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
                     className="mb-2 p-2 w-full border"
+                    required
                 />
                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
                     Login
