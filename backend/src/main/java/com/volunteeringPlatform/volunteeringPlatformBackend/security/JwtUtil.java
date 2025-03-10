@@ -28,13 +28,13 @@ import java.util.stream.Collectors;
     }
 
     public String generateToken(UserDetails userDetails) {
-        String email = userDetails.getUsername();
+        String username = userDetails.getUsername();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
         return Jwts.builder()
-                .subject(email)
+                .subject(username)
                 .claim("roles", roles)  // 🔹 Add roles to JWT
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expirationTime))
