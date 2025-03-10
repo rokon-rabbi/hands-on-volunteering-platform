@@ -1,7 +1,9 @@
 package com.volunteeringPlatform.volunteeringPlatformBackend.security;
 
+import com.volunteeringPlatform.volunteeringPlatformBackend.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,20 +29,15 @@ import java.util.stream.Collectors;
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        String username = userDetails.getUsername();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
+    public String generateToken(User user) {
         return Jwts.builder()
-                .subject(username)
-                .claim("roles", roles)  // 🔹 Add roles to JWT
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expirationTime))
-                .signWith(getSigningKey(), Jwts.SIG.HS256)
+                .setSubject(user.getEmail()) // Store email instead of username
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
+
 
 
 
