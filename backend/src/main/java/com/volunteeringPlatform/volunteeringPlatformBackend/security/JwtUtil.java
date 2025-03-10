@@ -5,14 +5,17 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
-@Component
-public class JwtUtil {
+@Component public class JwtUtil {
 
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
@@ -24,18 +27,28 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String email) {
+    public String generateToken(UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
         return Jwts.builder()
                 .subject(email)
+                .claim("roles", roles)  // 🔹 Add roles to JWT
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(getSigningKey(), Jwts.SIG.HS256)
                 .compact();
     }
 
-    public boolean validateToken(String token, String userEmail) {
-        return (userEmail.equals(extractEmail(token)) && !isTokenExpired(token));
+
+
+
+    public boolean validateToken(String token, UserDetails userDetails) {
+        return (userDetails.getUsername().equals(extractEmail(token)) && !isTokenExpired(token));
     }
+
 
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);

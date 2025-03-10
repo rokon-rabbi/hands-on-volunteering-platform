@@ -36,7 +36,7 @@ public class AuthController {
             User user = userRepository.findByEmail(request.getEmail())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
-            String token = jwtUtil.generateToken(user.getEmail());
+            String token = jwtUtil.generateToken(user);
 
             return ResponseEntity.ok(new AuthResponse(token, user.getUsername(), user.getEmail(), user.getRole()));
 
@@ -87,7 +87,11 @@ public class AuthController {
 
     @PutMapping("/promote")
     public ResponseEntity<String> promoteUser(@RequestParam String email, @RequestHeader("Authorization") String token) {
+        if (token == null || !token.startsWith("Bearer ")) {
+            return ResponseEntity.status(401).body("Invalid token.");
+        }
         String requesterUsername = jwtUtil.extractUsername(token.substring(7));
+
         Optional<User> requester = userRepository.findByEmail(requesterUsername);
 
         if (requester.isEmpty() || requester.get().getRole() != Role.SUPER_ADMIN) {
