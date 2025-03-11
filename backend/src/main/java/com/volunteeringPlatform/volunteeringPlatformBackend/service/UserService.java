@@ -4,8 +4,8 @@ import com.volunteeringPlatform.volunteeringPlatformBackend.dto.RegisterRequest;
 import com.volunteeringPlatform.volunteeringPlatformBackend.model.Role;
 import com.volunteeringPlatform.volunteeringPlatformBackend.model.User;
 import com.volunteeringPlatform.volunteeringPlatformBackend.repository.UserRepository;
+import com.volunteeringPlatform.volunteeringPlatformBackend.repository.VolunteerActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +16,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    public VolunteerActivityRepository volunteerActivityRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

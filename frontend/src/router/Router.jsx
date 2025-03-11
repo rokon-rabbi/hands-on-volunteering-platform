@@ -16,6 +16,7 @@ import Home from "../components/Home";
 import UserProfile from "../components/UserProfile";
 import Navbar from "../components/Navbar";
 import EditProfile from "../components/EditProfile";
+import VolunteerHistory from "../components/VolunteerHistory";
 
 // ✅ Define Layout component here
 const Layout = () => (
@@ -40,6 +41,11 @@ const router = createBrowserRouter([
                 path: "profile",
                 element: <UserRoute />,
                 children: [{ index: true, element: <UserProfile /> }],
+            },
+            {
+                path: "profile/history",
+                element: <UserRoute />,
+                children: [{ index: true, element: <VolunteerHistory /> }],
             },
 
             {

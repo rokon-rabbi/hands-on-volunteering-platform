@@ -13,7 +13,7 @@ const Login = () => {
         const loggedInUser = await login(email, password);
 
         if (loggedInUser) {
-            navigate("/dashboard");
+            navigate("/profile");
         } else {
             navigate("/register");
         }
