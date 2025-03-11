@@ -9,14 +9,16 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        console.log("AuthContext - Token from localStorage:", token);
+
+        console.log("Auth Token:", token);
+
 
         if (token) {
             axios.get("http://localhost:8080/api/users/profile", {
                 headers: { Authorization: `Bearer ${token}` },
             })
                 .then((res) => {
-                    console.log("AuthContext - Fetched user data:", res.data);
+
                     setUser(res.data);
                 })
                 .catch((error) => {
@@ -24,11 +26,11 @@ export const AuthProvider = ({ children }) => {
                     setUser(null);
                 })
                 .finally(() => {
-                    console.log("AuthContext - Setting loading to false");
+
                     setLoading(false);
                 });
         } else {
-            console.log("AuthContext - No token found, setting loading to false");
+
             setLoading(false);
         }
     }, []);
