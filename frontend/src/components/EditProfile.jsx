@@ -4,12 +4,12 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
-    const { user } = useAuth(); // Removed setUser
+    const { user, setUser } = useAuth();
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         username: user?.username || "",
-        email: user?.email || "", // Email is included in API request but remains non-editable
+        email: user?.email || "",
         skills: user?.skills?.join(", ") || "",
         causes: user?.causes?.join(", ") || "",
     });
@@ -22,47 +22,35 @@ const EditProfile = () => {
         });
     };
 
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem("token");
-
-        console.log("🔍 Token from localStorage:", token);  // Debugging
-
-        if (!token) {
-            console.error("❌ No token found! Login again.");
-            return;
-        }
-
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,  // Ensure "Bearer " prefix
-                "Content-Type": "application/json",
-            },
+        const formattedData = {
+            ...formData,
+            skills: Array.isArray(formData.skills) ? formData.skills : formData.skills.split(",").map(skill => skill.trim()),
+            causes: Array.isArray(formData.causes) ? formData.causes : formData.causes.split(",").map(cause => cause.trim()),
         };
 
-        console.log("🔍 Request Headers:", config.headers);  // Debugging
-
         try {
-            const response = await axios.put(
-                "http://localhost:8080/api/users/profile",
-                formData,
-                config
-            );
-            console.log("✅ Profile updated successfully:", response.data);
+            const response = await axios.put("http://localhost:8080/api/users/profile", formattedData, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            setUser(response.data);
+            navigate("/profile");
         } catch (error) {
-            console.error("❌ Error updating profile:", error.response);
+            console.error("Error updating profile:", error.response?.data || error.message);
         }
     };
-
-
-
 
     return (
         <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg">
             <h2 className="text-2xl font-semibold mb-4">Edit Profile</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Username */}
+
                 <div className="flex flex-col">
                     <label className="text-sm font-medium">Username</label>
                     <input
@@ -74,7 +62,6 @@ const EditProfile = () => {
                     />
                 </div>
 
-                {/* Email (Non-Editable) */}
                 <div className="flex flex-col">
                     <label className="text-sm font-medium">Email</label>
                     <input
@@ -86,7 +73,6 @@ const EditProfile = () => {
                     />
                 </div>
 
-                {/* Skills */}
                 <div className="flex flex-col">
                     <label className="text-sm font-medium">Skills (comma separated)</label>
                     <input
@@ -98,7 +84,6 @@ const EditProfile = () => {
                     />
                 </div>
 
-                {/* Causes */}
                 <div className="flex flex-col">
                     <label className="text-sm font-medium">Causes (comma separated)</label>
                     <input
@@ -110,7 +95,6 @@ const EditProfile = () => {
                     />
                 </div>
 
-                {/* Buttons */}
                 <div className="flex justify-between">
                     <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded-md">
                         Save Changes
