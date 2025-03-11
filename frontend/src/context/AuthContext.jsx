@@ -1,62 +1,68 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(() => {
-        const storedUser = localStorage.getItem("user");
-        return storedUser ? JSON.parse(storedUser) : null;
-    });
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true); // ✅ Ensure app waits before rendering
 
     useEffect(() => {
-        const syncAuth = (event) => {
-            if (event.key === "user") {
-                const newUser = event.newValue ? JSON.parse(event.newValue) : null;
-                setUser(newUser);
-            }
-        };
+        const token = localStorage.getItem("token");
 
-        window.addEventListener("storage", syncAuth);
-        return () => window.removeEventListener("storage", syncAuth);
+        console.log("Auth Token:", token);
+
+
+        if (token) {
+            axios.get("http://localhost:8080/api/users/profile", {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+                .then((res) => {
+
+                    setUser(res.data);
+                })
+                .catch((error) => {
+                    console.error("AuthContext - Error fetching user:", error);
+                    setUser(null);
+                })
+                .finally(() => {
+
+                    setLoading(false);
+                });
+        } else {
+
+            setLoading(false);
+        }
     }, []);
+
+
 
     const login = async (email, password) => {
         try {
-            const response = await fetch("http://localhost:8080/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
+            const res = await axios.post("http://localhost:8080/api/auth/login", { email, password });
+            localStorage.setItem("token", res.data.token);
+
+            // Fetch user profile after login
+            const profileRes = await axios.get("http://localhost:8080/api/users/profile", {
+                headers: { Authorization: `Bearer ${res.data.token}` },
             });
+            setUser(profileRes.data);
 
-            if (!response.ok) {
-                console.error("Login failed!");
-                return null;
-            }
-
-            const data = await response.json();
-            const { token, username, role } = data;
-            const newUser = { username, email, role };
-            localStorage.setItem("token", token);
-            localStorage.setItem("user", JSON.stringify(newUser));
-            setUser(newUser);
-
-            return newUser;
+            return profileRes.data; // Return user data for navigation
         } catch (error) {
-            console.error("Error during login:", error);
+            console.error(error);
             return null;
         }
     };
 
     const logout = () => {
         localStorage.removeItem("token");
-        localStorage.removeItem("user");
         setUser(null);
-        window.dispatchEvent(new Event("storage"));
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
-            {children}
+        <AuthContext.Provider value={{ user, setUser, login, logout, loading }}>
+            {!loading && children} {/* ✅ Prevent rendering until loading is complete */}
         </AuthContext.Provider>
     );
 };
