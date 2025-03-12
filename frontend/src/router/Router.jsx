@@ -61,7 +61,7 @@ const router = createBrowserRouter([
                 children: [{ index: true, element: <UserDashboard /> }],
             },
             {
-                path: "/create",
+                path: "/create-event",
                 element: <UserRoute />,
                 children: [{ index: true, element: <CreateEvent /> }],
             },

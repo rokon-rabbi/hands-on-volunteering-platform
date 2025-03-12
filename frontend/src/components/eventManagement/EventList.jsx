@@ -55,7 +55,17 @@ const EventList = () => {
 
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
-            <h2 className="text-3xl font-semibold mb-4">Discover Volunteer Events</h2>
+            <div className=" flex justify-between mb-5">
+                <h2 className="text-3xl font-semibold mb-4">Discover Volunteer Events</h2>
+                <div className="create-event">
+                    <button
+                        onClick={() => navigate(`/create-event`)}
+                        className="mt-3 p-2 bg-blue-500 text-white rounded-md"
+                    >
+                        Create New Event
+                    </button>
+                </div>
+            </div>
 
 
             <div className="grid grid-cols-3 gap-4 mb-6">
