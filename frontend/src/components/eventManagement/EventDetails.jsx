@@ -94,7 +94,7 @@ const EventDetails = () => {
     return (
         <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg">
             <h2 className="text-3xl font-semibold">{event.title}</h2>
-            <p className="text-gray-600">{event.location} • {new Date(event.date).toLocaleString()}</p>
+            <p className="text-gray-600">{event.location} • {new Date(event.dateTime).toLocaleString()}</p>
             <p className="mt-4">{event.description}</p>
             <button
                 onClick={joinEvent}

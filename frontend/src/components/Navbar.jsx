@@ -12,16 +12,15 @@ const Navbar = () => {
                 </NavLink>
 
                 <div className="flex items-center space-x-6">
-                    <NavLink
+                    {user ? (<NavLink
                         to="/events"
                         className="hover:text-yellow-400 transition duration-200"
                     >
                         Events Feed
-                    </NavLink>
+                    </NavLink>) : ""}
 
                     {user ? (
                         <div className="flex items-center space-x-6">
-                            {/* Profile Icon and Username */}
                             <NavLink
                                 to={"/profile"}
                                 className="flex items-center space-x-2 hover:text-yellow-400 transition duration-200"
