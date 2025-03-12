@@ -100,7 +100,7 @@ public class EventController {
             eventDetails.put("dateTime", event.getDateTime());
             eventDetails.put("location", event.getLocation());
             eventDetails.put("category", event.getCategory());
-            eventDetails.put("createdBy", userInfo);  
+            eventDetails.put("createdBy", userInfo);
 
             return ResponseEntity.ok(eventDetails);
         } catch (Exception e) {
