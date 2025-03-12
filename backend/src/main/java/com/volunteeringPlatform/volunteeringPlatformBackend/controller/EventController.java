@@ -75,17 +75,39 @@ public class EventController {
     }
     @GetMapping("/{eventId}")
     public ResponseEntity<?> getEventDetails(@PathVariable UUID eventId, @RequestHeader("Authorization") String token) {
-        String username = userService.getUsernameFromToken(token);
-        Event event = eventService.getEventById(eventId);
+        try {
+            String username = userService.getUsernameFromToken(token);
+            Event event = eventService.getEventById(eventId);
 
-        if (event == null) {
-            // If event is not found, return a 404 error
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Event not found");
+            if (event == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Event not found");
+            }
+
+            User user = userService.getUserByEmail(username);
+
+            Map<String, Object> userInfo = new HashMap<>();
+            userInfo.put("id", user.getId());
+            userInfo.put("username", user.getUsername());
+            userInfo.put("email", user.getEmail());
+            userInfo.put("role", user.getRole());
+            userInfo.put("skills", user.getSkills());
+            userInfo.put("causes", user.getCauses());
+
+            // Create event response with necessary event and user info
+            Map<String, Object> eventDetails = new HashMap<>();
+            eventDetails.put("eventId", event.getId());
+            eventDetails.put("title", event.getTitle());
+            eventDetails.put("description", event.getDescription());
+            eventDetails.put("dateTime", event.getDateTime());
+            eventDetails.put("location", event.getLocation());
+            eventDetails.put("category", event.getCategory());
+            eventDetails.put("createdBy", userInfo);  // Include the user information
+
+            return ResponseEntity.ok(eventDetails);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while fetching the event details");
         }
-
-        // Return event details
-        return ResponseEntity.ok(event);
     }
+
 
 }

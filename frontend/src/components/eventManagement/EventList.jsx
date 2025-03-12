@@ -6,18 +6,18 @@ import { useAuth } from "../../context/AuthContext";
 const EventList = () => {
     const [events, setEvents] = useState([]);
     const [filters, setFilters] = useState({ category: "", location: "", type: "all" });
-    const [loading, setLoading] = useState(false); // Add a loading state
+    const [loading, setLoading] = useState(false);
     const { user } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
         fetchEvents();
-    }, [filters]); // Re-fetch events when filters change
+    }, [filters]);
 
     const fetchEvents = async () => {
-        setLoading(true); // Show loading indicator
+        setLoading(true);
         try {
-            const token = localStorage.getItem("token"); // Get token from localStorage
+            const token = localStorage.getItem("token");
             if (!token) {
                 console.error("No authentication token found");
                 return;
@@ -25,7 +25,6 @@ const EventList = () => {
 
             let url = "http://localhost:8080/api/events";
 
-            // Build URL with query parameters based on filters
             const params = [];
             if (filters.category) params.push(`category=${filters.category}`);
             if (filters.location) params.push(`location=${filters.location}`);
@@ -42,11 +41,11 @@ const EventList = () => {
                 }
             });
 
-            setEvents(response.data.events); // Update events state with the fetched data
+            setEvents(response.data.events);
         } catch (error) {
             console.error("Error fetching events:", error);
         } finally {
-            setLoading(false); // Hide loading indicator
+            setLoading(false);
         }
     };
 
@@ -58,7 +57,7 @@ const EventList = () => {
         <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
             <h2 className="text-3xl font-semibold mb-4">Discover Volunteer Events</h2>
 
-            {/* Filters */}
+
             <div className="grid grid-cols-3 gap-4 mb-6">
                 <select name="category" onChange={handleFilterChange} value={filters.category} className="p-2 border rounded-md">
                     <option value="">All Categories</option>
@@ -84,10 +83,8 @@ const EventList = () => {
                 </select>
             </div>
 
-            {/* Loading indicator */}
             {loading && <div className="text-center text-lg text-gray-600">Loading events...</div>}
 
-            {/* Event Cards */}
             <div className="grid grid-cols-2 gap-4">
                 {!loading && events.length === 0 && (
                     <div className="text-center text-lg text-gray-600">No events found for the selected filters.</div>
