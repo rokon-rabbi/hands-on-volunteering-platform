@@ -6,14 +6,16 @@ import { useAuth } from "../../context/AuthContext";
 const EventList = () => {
     const [events, setEvents] = useState([]);
     const [filters, setFilters] = useState({ category: "", location: "", type: "all" });
+    const [loading, setLoading] = useState(false); // Add a loading state
     const { user } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
         fetchEvents();
-    }, [filters]);
+    }, [filters]); // Re-fetch events when filters change
 
     const fetchEvents = async () => {
+        setLoading(true); // Show loading indicator
         try {
             const token = localStorage.getItem("token"); // Get token from localStorage
             if (!token) {
@@ -22,20 +24,29 @@ const EventList = () => {
             }
 
             let url = "http://localhost:8080/api/events";
-            if (filters.category || filters.location || filters.type !== "all") {
-                url += `?category=${filters.category}&location=${filters.location}&type=${filters.type}`;
+
+            // Build URL with query parameters based on filters
+            const params = [];
+            if (filters.category) params.push(`category=${filters.category}`);
+            if (filters.location) params.push(`location=${filters.location}`);
+            if (filters.type !== "all") params.push(`type=${filters.type}`);
+
+            if (params.length > 0) {
+                url += `?${params.join("&")}`;
             }
 
             const response = await axios.get(url, {
                 headers: {
-                    Authorization: `Bearer ${token}`, // ✅ Add Authorization token
+                    Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json"
                 }
             });
 
-            setEvents(response.data.events);
+            setEvents(response.data.events); // Update events state with the fetched data
         } catch (error) {
             console.error("Error fetching events:", error);
+        } finally {
+            setLoading(false); // Hide loading indicator
         }
     };
 
@@ -49,30 +60,38 @@ const EventList = () => {
 
             {/* Filters */}
             <div className="grid grid-cols-3 gap-4 mb-6">
-                <select name="category" onChange={handleFilterChange} className="p-2 border rounded-md">
+                <select name="category" onChange={handleFilterChange} value={filters.category} className="p-2 border rounded-md">
                     <option value="">All Categories</option>
                     <option value="Environment">Environment</option>
                     <option value="Education">Education</option>
                     <option value="Health">Health</option>
+                    <option value="Community">Community</option>
                 </select>
 
                 <input
                     type="text"
                     name="location"
+                    value={filters.location}
                     placeholder="Search by location"
                     onChange={handleFilterChange}
                     className="p-2 border rounded-md"
                 />
 
-                <select name="type" onChange={handleFilterChange} className="p-2 border rounded-md">
+                <select name="type" onChange={handleFilterChange} value={filters.type} className="p-2 border rounded-md">
                     <option value="all">All Events</option>
                     <option value="event">Fixed-Date Events</option>
                     <option value="help">Ongoing Help Requests</option>
                 </select>
             </div>
 
+            {/* Loading indicator */}
+            {loading && <div className="text-center text-lg text-gray-600">Loading events...</div>}
+
             {/* Event Cards */}
             <div className="grid grid-cols-2 gap-4">
+                {!loading && events.length === 0 && (
+                    <div className="text-center text-lg text-gray-600">No events found for the selected filters.</div>
+                )}
                 {events.map((event) => (
                     <div key={event.eventId} className="p-4 border rounded-lg shadow-md">
                         <h3 className="text-xl font-semibold">{event.title}</h3>
