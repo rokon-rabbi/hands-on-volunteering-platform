@@ -93,7 +93,6 @@ public class EventController {
             userInfo.put("skills", user.getSkills());
             userInfo.put("causes", user.getCauses());
 
-            // Create event response with necessary event and user info
             Map<String, Object> eventDetails = new HashMap<>();
             eventDetails.put("eventId", event.getId());
             eventDetails.put("title", event.getTitle());
@@ -101,7 +100,7 @@ public class EventController {
             eventDetails.put("dateTime", event.getDateTime());
             eventDetails.put("location", event.getLocation());
             eventDetails.put("category", event.getCategory());
-            eventDetails.put("createdBy", userInfo);  // Include the user information
+            eventDetails.put("createdBy", userInfo);  
 
             return ResponseEntity.ok(eventDetails);
         } catch (Exception e) {

@@ -71,7 +71,7 @@ const router = createBrowserRouter([
                 children: [{ index: true, element: <EventDetails /> }],
             },
             {
-                path: "eventList",
+                path: "events",
                 element: <UserRoute />,
                 children: [{ index: true, element: <EventList /> }],
             },
