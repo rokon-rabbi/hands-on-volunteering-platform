@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
-import Navbar from "./Navbar";
 
-const Home = () => {
+
+const Welcome = () => {
     return (
         <>
             <div className="flex flex-col items-center justify-center h-screen text-center px-6">
@@ -23,4 +23,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Welcome;

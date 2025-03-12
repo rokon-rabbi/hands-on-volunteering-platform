@@ -38,7 +38,6 @@ public class EventService {
         }
     }
 
-    // Add a user to the event's attendee list
     public void addAttendee(UUID eventId, User user) {
         Optional<Event> event = eventRepository.findById(eventId);
         event.ifPresent(e -> {
@@ -46,4 +45,10 @@ public class EventService {
             eventRepository.save(e);
         });
     }
+    public Event getEventById(UUID eventId) {
+
+        Optional<Event> event = eventRepository.findById(eventId);
+        return event.orElse(null);
+    }
+
 }

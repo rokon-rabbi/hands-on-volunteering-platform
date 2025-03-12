@@ -73,4 +73,19 @@ public class EventController {
 
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/{eventId}")
+    public ResponseEntity<?> getEventDetails(@PathVariable UUID eventId, @RequestHeader("Authorization") String token) {
+        String username = userService.getUsernameFromToken(token);
+        Event event = eventService.getEventById(eventId);
+
+        if (event == null) {
+            // If event is not found, return a 404 error
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Event not found");
+        }
+
+        // Return event details
+        return ResponseEntity.ok(event);
+    }
+
 }
