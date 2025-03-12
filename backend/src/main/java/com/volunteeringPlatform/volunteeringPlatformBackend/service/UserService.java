@@ -5,6 +5,7 @@ import com.volunteeringPlatform.volunteeringPlatformBackend.model.Role;
 import com.volunteeringPlatform.volunteeringPlatformBackend.model.User;
 import com.volunteeringPlatform.volunteeringPlatformBackend.repository.UserRepository;
 import com.volunteeringPlatform.volunteeringPlatformBackend.repository.VolunteerActivityRepository;
+import com.volunteeringPlatform.volunteeringPlatformBackend.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     public VolunteerActivityRepository volunteerActivityRepository;
-
+    @Autowired
+    private JwtUtil jwtUtil;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -68,9 +70,12 @@ public class UserService {
             return userRepository.save(user);
         }).orElseThrow(() -> new IllegalStateException("User not found"));
     }
-    public User getUserByUsername(String name) {
-        return userRepository.findByUsername(name)
-                .orElseThrow(() -> new IllegalStateException("User not found"));
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("User not found for email: " + email));
+    }
+    public String getUsernameFromToken(String token) {
+        return jwtUtil.extractUsername(token.replace("Bearer ", ""));
     }
 
 }

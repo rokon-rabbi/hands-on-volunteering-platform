@@ -12,18 +12,20 @@ import SuperAdminPanel from "../components/SuperAdminPanel";
 import NotFound from "../components/NotFound";
 import { UserRoute, AdminRoute, SuperAdminRoute } from "./ProtectedRoute";
 import AdminPanel from "../components/AdminPanel";
-import Home from "../components/Home";
 import UserProfile from "../components/UserProfile";
 import Navbar from "../components/Navbar";
 import EditProfile from "../components/EditProfile";
 import VolunteerHistory from "../components/VolunteerHistory";
+import Welcome from "../components/Welcome";
+import CreateEvent from "../components/eventManagement/CreateEvent";
+import EventList from "../components/eventManagement/EventList";
+import EventDetails from "../components/eventManagement/EventDetails";
 
-// ✅ Define Layout component here
 const Layout = () => (
     <div>
         <Navbar />
         <div className="container mx-auto p-4">
-            <Outlet />  {/* ✅ Must be here */}
+            <Outlet />
         </div>
     </div>
 );
@@ -33,7 +35,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <Layout />,
         children: [
-            { index: true, element: <Home /> },
+            { index: true, element: <Welcome /> },
             { path: "login", element: <Login /> },
             { path: "register", element: <Register /> },
             { path: "unauthorized", element: <Unauthorized /> },
@@ -57,6 +59,21 @@ const router = createBrowserRouter([
                 path: "dashboard",
                 element: <UserRoute />,
                 children: [{ index: true, element: <UserDashboard /> }],
+            },
+            {
+                path: "/create",
+                element: <UserRoute />,
+                children: [{ index: true, element: <CreateEvent /> }],
+            },
+            {
+                path: "event/:eventId",
+                element: <UserRoute />,
+                children: [{ index: true, element: <EventDetails /> }],
+            },
+            {
+                path: "events",
+                element: <UserRoute />,
+                children: [{ index: true, element: <EventList /> }],
             },
             {
                 path: "admin",

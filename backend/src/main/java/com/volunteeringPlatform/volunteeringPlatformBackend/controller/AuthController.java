@@ -73,16 +73,6 @@ public class AuthController {
 
         return ResponseEntity.ok("User registered successfully");
     }
-    @GetMapping("/me")
-    public ResponseEntity<?> getCurrentUser(@RequestHeader("Authorization") String token) {
-        String username = jwtUtil.extractUsername(token.substring(7));
-        Optional<User> user = userRepository.findByEmail(username);
-
-        if (user.isEmpty()) {
-            return ResponseEntity.status(401).body("User not found.");
-        }
-        return ResponseEntity.ok(user.get());
-    }
 
 
     @PutMapping("/promote")

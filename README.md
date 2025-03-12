@@ -78,16 +78,94 @@ Server runs at http://localhost:8080
 - npm start
 App runs at  http://localhost:5173/
 
-## API Documentation
-- Post/api/auth/register
+# API Documentation
+
+### Register User
+**POST** `/api/auth/register`
+
+#### Request Body:
+
+```json
 {
-   "username": "testuser",
-   "email": "test@example.com",
-   "password": "password123"
-}
-- Post/api/auth/login
+    "username": "testuser",
+    "email": "test@example.com",
+    "password": "password123"
+} 
+```
+
+
+### Login User: 
+**POST** `/api/auth/login`
+
+### Request Body:
+
+``` JSON
 {
-  "email": "user@example.com",
-  "password": "userpassword"
+    "email": "user@example.com",
+    "password": "userpassword"
 }
+```
+### User Profile
+#### Get User Profile
+**GET** `/api/users/profile`
+
+Headers:
+Authorization: Bearer <JWT>
+#### Get User History
+**GET** `/api/users/profile/history`
+
+Headers:
+Authorization: Bearer <JWT>
+#### Update User Profile
+**PUT** `/api/users/profile`
+
+Headers:
+Authorization: Bearer <JWT>
+Request Body:
+``` JSON
+
+{
+    "username": "updatedUser",
+    "email": "updated@example.com",
+    "skills": ["React", "Node.js"],
+    "causes": ["Animal Welfare", "Healthcare"]
+}
+```
+## Events
+### Create Event
+**POST** `/api/events`
+
+Headers:
+Authorization: Bearer <JWT>
+Request Body:
+
+``` json
+{
+    "title": "Beach Cleanup Drive",
+    "description": "Join us to clean up the beach!",
+    "dateTime": "2025-03-15T10:00:00",
+    "location": "Santa Monica Beach",
+    "category": "Environment"
+}
+```
+#### Get All Events
+**GET** `/api/events`
+
+Headers:
+Authorization: Bearer <JWT>
+##### Filter Events
+**GET** `/api/events?category=Environmental&location=Miami Beach, FL`
+
+Headers:
+Authorization: Bearer <JWT>
+##### Join Event
+**POST** `/api/events/{eventId}/join`
+
+Headers:
+Authorization: Bearer <JWT>
+#### Get Event Details
+**GET** `/api/events/{eventId}`
+
+Headers:
+Authorization: Bearer <JWT>
 
