@@ -2,8 +2,7 @@ package com.volunteeringPlatform.volunteeringPlatformBackend.repository;
 
 import com.volunteeringPlatform.volunteeringPlatformBackend.model.HelpRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.UUID;
 
-@Repository
-public interface HelpRequestRepository extends JpaRepository<HelpRequest, String> {
+public interface HelpRequestRepository extends JpaRepository<HelpRequest, UUID> {
 }

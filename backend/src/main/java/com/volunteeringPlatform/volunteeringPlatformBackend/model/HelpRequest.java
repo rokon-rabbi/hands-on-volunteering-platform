@@ -1,32 +1,36 @@
 package com.volunteeringPlatform.volunteeringPlatformBackend.model;
-
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.UUID;
 
 @Entity
-@Table(name = "help_requests")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class HelpRequest {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     private String title;
-
-    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Enumerated(EnumType.STRING)
     private UrgencyLevel urgency;
 
-    @ManyToOne
-    @JoinColumn(name = "creator_id", nullable = false)
-    private User creator;
+    private String creatorId; // Store User ID
 
     @Enumerated(EnumType.STRING)
     private RequestStatus status;
+
+    public enum UrgencyLevel {
+        LOW, MEDIUM, URGENT
+    }
+
+    public enum RequestStatus {
+        OPEN, CLOSED
+    }
 }
