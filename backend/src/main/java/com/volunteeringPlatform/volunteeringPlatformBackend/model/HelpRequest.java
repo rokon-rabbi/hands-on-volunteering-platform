@@ -21,7 +21,7 @@ public class HelpRequest {
     @Enumerated(EnumType.STRING)
     private UrgencyLevel urgency;
 
-    private String creatorId; // Store User ID
+    private String creatorId;
 
     @Enumerated(EnumType.STRING)
     private RequestStatus status;

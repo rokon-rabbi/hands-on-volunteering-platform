@@ -18,6 +18,6 @@ public class HelpRequestComment {
     private UUID id;
 
     private UUID helpRequestId;
-    private String userId; // Store User ID
+    private String userId;
     private String comment;
 }

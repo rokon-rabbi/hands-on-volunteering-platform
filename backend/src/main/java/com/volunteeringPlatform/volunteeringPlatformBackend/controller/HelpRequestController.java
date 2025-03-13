@@ -4,6 +4,8 @@ import com.volunteeringPlatform.volunteeringPlatformBackend.service.HelpRequestS
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,9 +20,14 @@ public class HelpRequestController {
     private  HelpRequestService helpRequestService;
 
     @PostMapping
-    public ResponseEntity<HelpRequest> createHelpRequest(@RequestBody HelpRequest helpRequest) {
-        return ResponseEntity.ok(helpRequestService.createHelpRequest(helpRequest));
+    public ResponseEntity<HelpRequest> createHelpRequest(
+            @RequestBody HelpRequest helpRequest,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        String userId = userDetails.getUsername();
+        return ResponseEntity.ok(helpRequestService.createHelpRequest(helpRequest, userId));
     }
+
 
     @GetMapping
     public ResponseEntity<List<HelpRequest>> getAllHelpRequests() {

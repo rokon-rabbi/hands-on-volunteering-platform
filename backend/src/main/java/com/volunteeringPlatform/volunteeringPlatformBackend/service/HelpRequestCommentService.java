@@ -14,9 +14,15 @@ public class HelpRequestCommentService {
 
     private final HelpRequestCommentRepository helpRequestCommentRepository;
 
-    public HelpRequestComment addComment(HelpRequestComment comment) {
+    public HelpRequestComment addComment(UUID helpRequestId, String commentText, String userId) {
+        HelpRequestComment comment = HelpRequestComment.builder()
+                .helpRequestId(helpRequestId)
+                .userId(userId)
+                .comment(commentText)
+                .build();
         return helpRequestCommentRepository.save(comment);
     }
+
 
     public List<HelpRequestComment> getCommentsByRequestId(UUID helpRequestId) {
         return helpRequestCommentRepository.findByHelpRequestId(helpRequestId);

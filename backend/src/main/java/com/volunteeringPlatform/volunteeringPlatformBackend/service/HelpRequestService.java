@@ -15,7 +15,8 @@ public class HelpRequestService {
 
     private final HelpRequestRepository helpRequestRepository;
 
-    public HelpRequest createHelpRequest(HelpRequest helpRequest) {
+    public HelpRequest createHelpRequest(HelpRequest helpRequest, String userId) {
+        helpRequest.setCreatorId(userId); // Set user ID from JWT
         helpRequest.setStatus(HelpRequest.RequestStatus.OPEN);
         return helpRequestRepository.save(helpRequest);
     }
