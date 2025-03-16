@@ -20,6 +20,8 @@ import Welcome from "../components/Welcome";
 import CreateEvent from "../components/eventManagement/CreateEvent";
 import EventList from "../components/eventManagement/EventList";
 import EventDetails from "../components/eventManagement/EventDetails";
+import Home from "../components/HelpRequests";
+import HelpRequests from "../components/HelpRequests";
 
 const Layout = () => (
     <div>
@@ -54,6 +56,11 @@ const router = createBrowserRouter([
                 path: "profile/edit",
                 element: <UserRoute />,
                 children: [{ index: true, element: <EditProfile /> }],
+            },
+            {
+                path: "help-requests",
+                element: <UserRoute />,
+                children: [{ index: true, element: <HelpRequests /> }],
             },
             {
                 path: "dashboard",
