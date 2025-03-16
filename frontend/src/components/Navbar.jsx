@@ -12,16 +12,23 @@ const Navbar = () => {
                 </NavLink>
 
                 <div className="flex items-center space-x-6">
-                    <NavLink
-                        to="/events"
-                        className="hover:text-yellow-400 transition duration-200"
-                    >
-                        Events Feed
-                    </NavLink>
+                    {user ? (
+                        <>
+                            <NavLink
+                                to="/help-requests"
+                                className="hover:text-yellow-400 transition duration-200"
+                            >
+                                Help Requests
+                            </NavLink>
+                            <NavLink
+                                to="/events"
+                                className="hover:text-yellow-400 transition duration-200"
+                            >
+                                Events Feed
+                            </NavLink></>) : ""}
 
                     {user ? (
                         <div className="flex items-center space-x-6">
-                            {/* Profile Icon and Username */}
                             <NavLink
                                 to={"/profile"}
                                 className="flex items-center space-x-2 hover:text-yellow-400 transition duration-200"

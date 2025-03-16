@@ -1,38 +1,72 @@
-# Community-Driven Social Volunteering Platform
-
-A web application designed to connect volunteers with various community-driven events and opportunities. The platform allows users to discover volunteer opportunities, request help from the community, and track their volunteer impact. The system features role-based authentication and authorization, ensuring that users, admins, and super admins can access specific pages and actions based on their role.
-
-## Project Overview
-
-This project is a **React.js** front-end with a **Spring Boot** back-end, designed for managing volunteerism and community involvement. Users can sign up, log in, and access different parts of the platform based on their roles. Admins and super admins can manage events and users, while regular users can sign up for events and track their contributions.
+👐 HandsOn – A Community-Driven Social Volunteering Platform
+============================================================
 
 
-## Technologies Used
+🌍 **Project Overview**
+-----------------------
 
-- **Frontend:**
-  - React.js
-  - Tailwind CSS
+**Community-Driven Social Volunteering Platform** is a social volunteering platform that connects users with meaningful volunteer opportunities, enabling them to contribute to community-driven initiatives. The platform facilitates:
 
-- **Backend:**
-  - Spring Boot
-  - Spring Security (JWT Authentication)
-  - Spring Data JPA (for database interaction)
-  - PostgreSQL (relational database management)
-
-- **Authentication:**
-  - JWT (JSON Web Tokens)
+✅ **Volunteer Event Discovery & Registration** – Find and join events effortlessly.\
+✅ **Community Help Requests** – Post and respond to urgent help requests.\
+✅ **Team Formation** – Build and collaborate with teams for volunteering.\
+✅ **Impact Tracking & Recognition** – Log hours, earn points, and get certified.\
+✅ **Secure & Role-Based Access** – Ensure user authentication and secure access.
 
 
-## Features
-Key features include:
-- **Role-Based Access Control (RBAC):**
-  - Users have different levels of access based on roles (User, Admin, Super Admin).
+
+🎯 **Tech Stack**
+-----------------
+
+### **Backend (Spring Boot & PostgreSQL)**
+
+✅ **Spring Boot** – REST API development.
+
+ ✅ **Spring Security & JWT** – Authentication & authorization
+ 
+ ✅ **PostgreSQL** – Data persistence
+ 
+ ✅ **Lombok & Hibernate** – Entity management
+ 
+ ✅ **Maven** – Dependency management
+
+### **Frontend (React & Tailwind CSS)**
+
+✅ **React.js** – Modern UI framework
+
+✅ **React Router** – Navigation & routing
+
+✅ **Tailwind CSS** – Responsive design
+
+✅ **Axios** – API communication
+
+
+🚀 **Key Features**
+-------------------
+
+### 1️⃣ **User Registration & Profile Management**
+
+🔹 **User Authentication**: Register and log in securely using **JWT authentication**. 
+
+  🔹 **Profile Editing**: Update personal details, skills, and causes of interest. 
   
-- **JWT Authentication:**
-  - Secure login/logout functionality with JWT tokens to manage user sessions.
+  🔹 **User Dashboard**: View volunteering history and contributions.
 
-- **Responsive UI:**
-  - Fully responsive and mobile-friendly UI built with **Tailwind CSS**.
+### 2️⃣ **Discover & Join Volunteer Events**
+
+🔹 **Event Creation**: Users/organizations can create volunteering events.
+
+🔹 **Event Feed**: Browse, filter, and discover relevant opportunities.
+
+🔹 **One-Click Registration**: Join events with a single click.
+
+### 3️⃣ **Community Help Requests**
+
+🔹 **Create Help Requests**: Request assistance for ongoing needs.
+
+🔹 **Urgency Levels**: Categorize requests as **low, medium, or urgent**.
+
+🔹 **User Interaction**: Offer help through comments or  messaging.
 
 ## Database Schema
 
@@ -168,4 +202,48 @@ Authorization: Bearer <JWT>
 
 Headers:
 Authorization: Bearer <JWT>
+## Hepl-Requests
+### Create Help Request
+**POST** `/api/help-requests`
 
+Headers:
+Authorization: Bearer <JWT>
+Request Body:
+
+``` json
+{
+    "title": "Need Blood Donation",
+    "description": "Urgently require O+ blood donor.",
+    "location": "NYC Hospital",
+    "category": "Medical"
+}
+
+```
+### Get All Help Requests
+**GET** `/api/help-requests`
+
+Headers:
+Authorization: Bearer <JWT>
+#### Get Help Request by ID
+**GET** `/api/help-requests/{id}`
+
+Headers:
+Authorization: Bearer <JWT>
+#### Update Help Request Status
+**GET** `/api/help-requests/{id}/status`
+
+Headers:
+Authorization: Bearer <JWT>
+##### status=OPEN | CLOSED
+
+## Help Request Comments
+### Add Comment to Help Request
+**POST** `/api/help-requests/{helpRequestId}/comments`
+
+Headers:
+Authorization: Bearer <JWT>
+Request Body:
+"Great initiative! Happy to help."
+
+### Get Comments on Help Request
+**GET** `/api/help-requests/{helpRequestId}/comments`

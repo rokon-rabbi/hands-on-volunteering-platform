@@ -1,0 +1,101 @@
+[33m6581a79[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/community-help-requests[m[33m)[m HEAD@{0}: reset: moving to HEAD
+[33m6581a79[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/community-help-requests[m[33m)[m HEAD@{1}: reset: moving to HEAD~1
+[33m6dfc4df[m[33m ([m[1;31morigin/feature/community-help-requests[m[33m)[m HEAD@{2}: commit: feature:add help request post end point with service class
+[33m6581a79[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/community-help-requests[m[33m)[m HEAD@{3}: commit: feature:add HelpRequestRepository
+[33m9fb97a5[m HEAD@{4}: commit (amend): feature: add help request model with enums also navbar and date
+[33mcea0ff4[m HEAD@{5}: pull origin feature/community-help-requests (finish): returning to refs/heads/feature/community-help-requests
+[33mcea0ff4[m HEAD@{6}: pull origin feature/community-help-requests (start): checkout cea0ff412e2824c377455655b1960a12da5543e1
+[33m4a1cb4b[m HEAD@{7}: checkout: moving from main to feature/community-help-requests
+[33mb8c87a3[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{8}: checkout: moving from feature/community-help-requests to main
+[33m4a1cb4b[m HEAD@{9}: commit (amend): feature: add help request model with enums also navbar and date
+[33mcea0ff4[m HEAD@{10}: commit: fix: fix navbar and eventdetails date frontend
+[33mb8c87a3[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{11}: checkout: moving from main to feature/community-help-requests
+[33mb8c87a3[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{12}: pull origin main: Fast-forward
+[33m0dfe995[m HEAD@{13}: checkout: moving from features/discover-volunteer-events to main
+[33mfa74bd0[m[33m ([m[1;31morigin/features/discover-volunteer-events[m[33m)[m HEAD@{14}: commit: chore: add apis in readme
+[33m5b38561[m HEAD@{15}: commit: refactor: refactor navbar ui
+[33m4cec610[m HEAD@{16}: commit: fix:response data sanitize
+[33mc50f6d4[m HEAD@{17}: commit: fix:solve filter events
+[33m4098a8f[m HEAD@{18}: commit: feat: add all frontend for discover and join volunter events
+[33m036c419[m HEAD@{19}: commit: feat: add all end points for events discover and join
+[33m0dfe995[m HEAD@{20}: checkout: moving from main to features/discover-volunteer-events
+[33m0dfe995[m HEAD@{21}: pull origin main: Fast-forward
+[33m80b575f[m HEAD@{22}: checkout: moving from feature/user-profile-setup to main
+[33m7ba24b9[m[33m ([m[1;31morigin/feature/user-profile-setup[m[33m)[m HEAD@{23}: commit: feat:add volunteer history and contribution
+[33m58da069[m HEAD@{24}: commit: fix:edit profile convert form data to array
+[33m7277d6e[m HEAD@{25}: commit: feature:edit profile
+[33mfdef084[m HEAD@{26}: commit: feature:setup for profile in frontend
+[33m69cb89d[m HEAD@{27}: commit: fix:solve customerDetailsService method call
+[33m08a4926[m HEAD@{28}: reset: moving to HEAD
+[33m08a4926[m HEAD@{29}: commit: fix:solve user/profile endpoint
+[33m60d8705[m HEAD@{30}: reset: moving to HEAD
+[33m60d8705[m HEAD@{31}: reset: moving to HEAD
+[33m60d8705[m HEAD@{32}: commit: fix:solve user/profile endpoint backend with fix jwt token authorize
+[33me72ddc7[m HEAD@{33}: commit: feature:implement user/profile endpoint backend
+[33m843476d[m HEAD@{34}: commit: chore: update README
+[33m80b575f[m HEAD@{35}: checkout: moving from main to feature/user-profile-setup
+[33m80b575f[m HEAD@{36}: pull origin main: Fast-forward
+[33m458b5e5[m HEAD@{37}: checkout: moving from fix/frontend-routes to main
+[33mb42fe97[m[33m ([m[1;31morigin/fix/frontend-routes[m[33m)[m HEAD@{38}: commit: fix:protect different route for different user
+[33m458b5e5[m HEAD@{39}: checkout: moving from main to fix/frontend-routes
+[33m458b5e5[m HEAD@{40}: pull origin main: Fast-forward
+[33m9415149[m HEAD@{41}: checkout: moving from feature/user-authentication-frontend to main
+[33mf2cefc7[m[33m ([m[1;31morigin/feature/user-authentication-frontend[m[33m)[m HEAD@{42}: pull origin main: Fast-forward
+[33m90ba54b[m HEAD@{43}: checkout: moving from feature/user-authentication to feature/user-authentication-frontend
+[33m1cd3ed4[m HEAD@{44}: commit: refactor:refactor protected route also add notfound page
+[33m333cc59[m HEAD@{45}: commit: feat: add superadmin with protected route
+[33m0403679[m[33m ([m[1;31morigin/feature/user-authentication[m[33m)[m HEAD@{46}: commit: refactor: protected route refactor
+[33m15cc56e[m HEAD@{47}: commit: feat: add userDashboard and define protectedRoute function
+[33m9415149[m HEAD@{48}: pull origin main: Fast-forward
+[33m5ef4d07[m HEAD@{49}: checkout: moving from main to feature/user-authentication
+[33m9415149[m HEAD@{50}: pull origin main: Fast-forward
+[33m9de5287[m HEAD@{51}: checkout: moving from feature/user-authentication-frontend to main
+[33m90ba54b[m HEAD@{52}: checkout: moving from fix/user-authentication to feature/user-authentication-frontend
+[33m414c918[m[33m ([m[1;31morigin/fix/user-authentication[m[33m)[m HEAD@{53}: commit: fix: fix cors in securityconfig and main method
+[33m1df7fc9[m HEAD@{54}: checkout: moving from fix/user-authentication to fix/user-authentication
+[33m1df7fc9[m HEAD@{55}: commit: fix:authResponse and authController fix
+[33m90ba54b[m HEAD@{56}: checkout: moving from feature/user-authentication-frontend to fix/user-authentication
+[33m90ba54b[m HEAD@{57}: pull origin main (finish): returning to refs/heads/feature/user-authentication-frontend
+[33m90ba54b[m HEAD@{58}: pull origin main (pick): fix: fix authContext
+[33mba41d68[m HEAD@{59}: pull origin main (pick): feat:add login frontend fix:authContext
+[33mf3d2ba3[m HEAD@{60}: pull origin main (pick): feat: add register with authcontext and backend cors setting
+[33m545e3b8[m HEAD@{61}: pull origin main (pick): feat: add login.jsx, register.jsx,authService template with router implementation
+[33m9de5287[m HEAD@{62}: pull origin main (start): checkout 9de528761f725f2ada303e5e18b4db801935e167
+[33m9e2fb99[m HEAD@{63}: checkout: moving from main to feature/user-authentication-frontend
+[33m9de5287[m HEAD@{64}: pull origin main: Fast-forward
+[33ma837638[m HEAD@{65}: checkout: moving from feature/user-authentication-frontend to main
+[33m9e2fb99[m HEAD@{66}: checkout: moving from feature/user-authentication to feature/user-authentication-frontend
+[33m5ef4d07[m HEAD@{67}: commit: fix: fix api/auth/me controller add
+[33m95d0c0c[m HEAD@{68}: checkout: moving from feature/user-authentication-frontend to feature/user-authentication
+[33m9e2fb99[m HEAD@{69}: commit: fix: fix authContext
+[33m9d99f4c[m HEAD@{70}: checkout: moving from feature/user-authentication to feature/user-authentication-frontend
+[33m95d0c0c[m HEAD@{71}: checkout: moving from feature/user-authentication-frontend to feature/user-authentication
+[33m9d99f4c[m HEAD@{72}: commit: feat:add login frontend fix:authContext
+[33m3764d85[m HEAD@{73}: commit: feat: add register with authcontext and backend cors setting
+[33mec1ab35[m HEAD@{74}: commit: feat: add login.jsx, register.jsx,authService template with router implementation
+[33m95d0c0c[m HEAD@{75}: checkout: moving from feature/user-authentication to feature/user-authentication-frontend
+[33m95d0c0c[m HEAD@{76}: commit: feat: add DataInitializer for super admin and fix: fix AuthController,UserRepository,jwtutil
+[33mcbc306c[m HEAD@{77}: commit: fix: fix user model
+[33m1bd9d21[m HEAD@{78}: commit: fix: fix user model
+[33m510a6ed[m HEAD@{79}: checkout: moving from feature/user-authentication-frontend-integretion to feature/user-authentication
+[33m510a6ed[m HEAD@{80}: checkout: moving from feature/user-authentication to feature/user-authentication-frontend-integretion
+[33m510a6ed[m HEAD@{81}: commit: fix: fix AuthController and AuthService delete
+[33m7185cb5[m HEAD@{82}: commit: feat:add JwtAuthenticationFilter to security
+[33mcd2a513[m HEAD@{83}: commit: fix: rename jwtServie to JwtUtil and fix bug
+[33m2dea499[m HEAD@{84}: commit: refactor: SecurityConfig
+[33m67ddef4[m HEAD@{85}: commit: fix: authentication service
+[33m5951bb0[m HEAD@{86}: commit: feat: add Spring Security configuration
+[33m84a722e[m HEAD@{87}: commit: feat: implement user registration and login with JWT authentication
+[33m815b8dc[m HEAD@{88}: commit: feat: add JWT authentication service
+[33m41dc82c[m HEAD@{89}: commit: feat:add AuthRequest,AuthResponse dto and CustomUserDetailsService
+[33mf7c9bdd[m HEAD@{90}: commit (amend): feat:add UserService, RegisterRequest and validation dependency also AuthController create
+[33me77d699[m HEAD@{91}: commit: add UserService, RegisterRequest and validation dependency also AuthController created
+[33m6b8281a[m HEAD@{92}: commit: refactor: User model and repository for authentication jwt dependencies add
+[33ma9730cd[m HEAD@{93}: commit (amend): feat:user model user repository and spring security dependency add
+[33m183b63b[m HEAD@{94}: commit (amend): feat:user model user repository and spring security dependency added
+[33mbacb8ce[m HEAD@{95}: commit (amend): user model user repository and spring security dependency added
+[33mbb23f1e[m HEAD@{96}: commit: user model user repository and spring security dependency
+[33m28de94e[m HEAD@{97}: commit: chore:database connect with define require spring dependencies
+[33ma837638[m HEAD@{98}: checkout: moving from main to feature/user-authentication
+[33ma837638[m HEAD@{99}: Branch: renamed refs/heads/master to refs/heads/main
+[33ma837638[m HEAD@{101}: commit (initial): Initial commit with project structure
