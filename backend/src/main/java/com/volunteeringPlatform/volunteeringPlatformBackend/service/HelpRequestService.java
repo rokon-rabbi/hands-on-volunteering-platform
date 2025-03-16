@@ -3,7 +3,9 @@ package com.volunteeringPlatform.volunteeringPlatformBackend.service;
 import com.volunteeringPlatform.volunteeringPlatformBackend.model.HelpRequest;
 import com.volunteeringPlatform.volunteeringPlatformBackend.repository.HelpRequestRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,9 +27,6 @@ public class HelpRequestService {
         return helpRequestRepository.findAll();
     }
 
-    public Optional<HelpRequest> getHelpRequestById(UUID id) {
-        return helpRequestRepository.findById(id);
-    }
 
     public HelpRequest updateRequestStatus(UUID id, HelpRequest.RequestStatus status) {
         return helpRequestRepository.findById(id).map(request -> {
@@ -35,5 +34,10 @@ public class HelpRequestService {
             return helpRequestRepository.save(request);
         }).orElseThrow(() -> new RuntimeException("Help request not found"));
     }
+    public HelpRequest getHelpRequestById(UUID id) {
+        return helpRequestRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Help Request not found"));
+    }
+
 }
 

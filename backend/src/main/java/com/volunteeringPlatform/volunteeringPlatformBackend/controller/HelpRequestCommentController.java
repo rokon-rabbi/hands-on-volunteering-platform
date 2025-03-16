@@ -26,9 +26,15 @@ public class HelpRequestCommentController {
             @RequestBody String commentText,
             @AuthenticationPrincipal UserDetails userDetails) {
 
-        String userId = userDetails.getUsername();
-        return ResponseEntity.ok(helpRequestCommentService.addComment(helpRequestId, commentText, userId));
+        if (userDetails == null) {
+            return ResponseEntity.status(403).build();}
+
+        String username = userDetails.getUsername();
+        HelpRequestComment savedComment = helpRequestCommentService.addComment(helpRequestId, commentText, username);
+
+        return ResponseEntity.ok(savedComment);
     }
+
 
 
     @GetMapping

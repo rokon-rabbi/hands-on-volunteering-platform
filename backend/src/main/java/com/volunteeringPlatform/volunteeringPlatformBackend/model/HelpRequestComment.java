@@ -16,8 +16,8 @@ public class HelpRequestComment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
-    private UUID helpRequestId;
-    private String userId;
+    private UUID userId;
     private String comment;
+    private String username;
+    private UUID helpRequestId;
 }
