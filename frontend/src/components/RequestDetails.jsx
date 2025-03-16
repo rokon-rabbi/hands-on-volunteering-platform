@@ -62,7 +62,9 @@ function RequestDetails() {
 
             <h2 className="mt-4 text-lg font-semibold">Comments</h2>
             {comments.map((c, i) => (
-                <p key={i} className="bg-gray-100 p-2 mt-2 rounded">{c.comment}</p>
+                <p key={i} className="bg-gray-100 p-2 mt-2 rounded">
+                    <span className="font-semibold">{c.username}: </span>{c.comment}
+                </p>
             ))}
 
             <textarea
