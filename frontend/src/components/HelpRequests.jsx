@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
+import HelpRequestStatusUpdate from "./HelpRequestStatusUpdate"; // Import the Status Update component
 
 function HelpRequests() {
     const [requests, setRequests] = useState([]);
 
-    useEffect(() => {
+    // Function to fetch the requests
+    const fetchRequests = useCallback(() => {
         fetch("http://localhost:8080/api/help-requests", {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -13,6 +15,20 @@ function HelpRequests() {
             .then((res) => res.json())
             .then((data) => setRequests(data));
     }, []);
+
+    // Fetch requests on mount
+    useEffect(() => {
+        fetchRequests();
+    }, [fetchRequests]);
+
+    // Update a request in the state after changing its status
+    const updateRequestStatus = (id, newStatus) => {
+        setRequests((prevRequests) =>
+            prevRequests.map((req) =>
+                req.id === id ? { ...req, status: newStatus } : req
+            )
+        );
+    };
 
     return (
         <div className="min-h-screen p-6 bg-gray-100">
@@ -34,10 +50,17 @@ function HelpRequests() {
                                 <h2 className="text-xl font-bold">{req.title}</h2>
                                 <p className="text-gray-600">{req.description}</p>
                                 <p className="text-sm text-red-500">Urgency: {req.urgency}</p>
+                                <p className="text-sm text-red-500">Status: {req.status}</p>
                             </div>
-                            <Link to={`/request/${req.id}`} className="text-blue-500">
-                                View Details →
-                            </Link>
+                            <div className="flex items-center space-x-4">
+                                <HelpRequestStatusUpdate
+                                    helpRequestId={req.id}
+                                    updateRequestStatus={updateRequestStatus}
+                                />
+                                <Link to={`/request/${req.id}`} className="text-blue-500">
+                                    View Details →
+                                </Link>
+                            </div>
                         </div>
                     ))}
                 </div>

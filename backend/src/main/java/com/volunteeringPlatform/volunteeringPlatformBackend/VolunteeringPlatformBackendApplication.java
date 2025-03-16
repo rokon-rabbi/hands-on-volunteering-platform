@@ -19,7 +19,7 @@ public class VolunteeringPlatformBackendApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
 						.allowedHeaders("Authorization", "Content-Type")
-						.allowedMethods("GET", "POST", "DELETE", "PUT")
+						.allowedMethods("GET", "POST", "DELETE", "PUT","PATCH")
 						.allowedOriginPatterns("*")
 						.allowCredentials(true);
 			}

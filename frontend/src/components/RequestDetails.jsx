@@ -7,7 +7,8 @@ function RequestDetails() {
     const [comment, setComment] = useState("");
     const [comments, setComments] = useState([]);
     const token = localStorage.getItem("token"); // Retrieve JWT token
-
+    console.log(comment);
+    console.log(comments);
     useEffect(() => {
         if (!token) {
             alert("Please log in to continue.");
@@ -32,7 +33,7 @@ function RequestDetails() {
             .then((res) => res.json())
             .then((data) => setComments(data))
             .catch((err) => console.error("Error fetching comments:", err));
-    }, [id, token]);
+    }, [id, token, comment]);
 
     const postComment = async () => {
         if (!comment.trim()) return;
