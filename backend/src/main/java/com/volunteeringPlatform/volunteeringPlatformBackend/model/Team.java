@@ -1,10 +1,10 @@
 package com.volunteeringPlatform.volunteeringPlatformBackend.model;
-
-
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
-import java.util.List;
 @Entity
 @Getter
 @Setter
@@ -13,12 +13,17 @@ import java.util.List;
 @Builder
 @Table(name = "teams")
 public class Team {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String name;
-    private String privacy;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Privacy privacy; // PUBLIC or PRIVATE
 
     @ManyToMany
     @JoinTable(
@@ -26,11 +31,20 @@ public class Team {
             joinColumns = @JoinColumn(name = "team_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> members;
+    private Set<User> members = new HashSet<>();
 
-    @OneToMany(mappedBy = "team")
-    private List<Event> events;
+    @ManyToMany
+    @JoinTable(
+            name = "team_events",
+            joinColumns = @JoinColumn(name = "team_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    private Set<Event> events = new HashSet<>();
 
-    // Getters and Setters
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
-

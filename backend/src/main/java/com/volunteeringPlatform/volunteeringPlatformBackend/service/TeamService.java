@@ -1,44 +1,61 @@
 package com.volunteeringPlatform.volunteeringPlatformBackend.service;
 
+import com.volunteeringPlatform.volunteeringPlatformBackend.model.Privacy;
 import com.volunteeringPlatform.volunteeringPlatformBackend.model.Team;
 import com.volunteeringPlatform.volunteeringPlatformBackend.model.User;
 import com.volunteeringPlatform.volunteeringPlatformBackend.repository.TeamRepository;
 import com.volunteeringPlatform.volunteeringPlatformBackend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class TeamService {
 
-    @Autowired
-    private TeamRepository teamRepository;
+    private final TeamRepository teamRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
+    public Team createTeam(String name, String privacy, String creatorId) {
 
-    // Create a new team
-    public Team createTeam(Team team, User user) {
-        // Make the user the first member of the team
-        team.getMembers().add(user);
+        Set<User> members = new HashSet<>();
+
+        User creator = userService.getUserByEmail(creatorId);
+        members.add(creator);
+
+        Team team = new Team();
+        team.setName(name);
+        team.setPrivacy(Privacy.valueOf(privacy.toUpperCase()));
+        team.setMembers(members);
+        team.setCreatedAt(LocalDateTime.now());
+
         return teamRepository.save(team);
     }
 
-    // Get details of a team
-    public Team getTeamDetails(Long teamId) {
-        return teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("Team not found"));
+
+    public Team getTeamById(Long teamId) {
+        return teamRepository.findById(teamId)
+                .orElseThrow(() -> new RuntimeException("Team not found"));
     }
 
-    // Add a member to the team
-    public Team addMemberToTeam(Long teamId, User user) {
-        Team team = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("Team not found"));
+    @Transactional
+    public Team joinTeam(Long teamId, UUID userId) {
+        Team team = getTeamById(teamId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         team.getMembers().add(user);
-        return teamRepository.save(team);
+        return team;
     }
 
-    // Get all teams (for leaderboard)
-    public List<Team> getAllTeams() {
-        return teamRepository.findAll();
+    public Set<Team> getAllTeams() {
+        return Set.copyOf(teamRepository.findAll());
     }
 }

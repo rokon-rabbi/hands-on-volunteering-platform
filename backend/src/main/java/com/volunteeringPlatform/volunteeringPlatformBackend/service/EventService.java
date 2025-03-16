@@ -20,12 +20,10 @@ public class EventService {
     @Autowired
     private UserRepository userRepository;
 
-    // Create a new event
     public Event createEvent(Event event) {
         return eventRepository.save(event);
     }
 
-    // Get all events, with optional category and location filtering
     public List<Event> getEvents(String category, String location) {
         if (category != null && location != null) {
             return eventRepository.findByCategoryAndLocation(category, location);
