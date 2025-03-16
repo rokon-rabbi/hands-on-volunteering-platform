@@ -19,7 +19,7 @@ function HelpRequests() {
             <div className="max-w-4xl mx-auto">
                 <h1 className="text-2xl font-bold mb-4">Help Requests</h1>
                 <Link
-                    to="/create"
+                    to="/create-helpRequest"
                     className="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4 inline-block"
                 >
                     + New Request
