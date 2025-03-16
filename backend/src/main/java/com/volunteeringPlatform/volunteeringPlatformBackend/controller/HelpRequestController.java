@@ -33,6 +33,10 @@ public class HelpRequestController {
     public ResponseEntity<List<HelpRequest>> getAllHelpRequests() {
         return ResponseEntity.ok(helpRequestService.getAllHelpRequests());
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<HelpRequest> getHelpRequestById(@PathVariable UUID id) {
+        return ResponseEntity.ok(helpRequestService.getHelpRequestById(id));
+    }
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<HelpRequest> updateRequestStatus(

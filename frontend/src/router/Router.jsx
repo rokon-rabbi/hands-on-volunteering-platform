@@ -23,6 +23,7 @@ import EventDetails from "../components/eventManagement/EventDetails";
 import Home from "../components/HelpRequests";
 import HelpRequests from "../components/HelpRequests";
 import CreateRequest from "../components/CreateRequest";
+import RequestDetails from "../components/RequestDetails";
 
 const Layout = () => (
     <div>
@@ -62,6 +63,11 @@ const router = createBrowserRouter([
                 path: "help-requests",
                 element: <UserRoute />,
                 children: [{ index: true, element: <HelpRequests /> }],
+            },
+            {
+                path: "/request/:id",
+                element: <UserRoute />,
+                children: [{ index: true, element: <RequestDetails /> }],
             },
             {
                 path: "create-helpRequest",
