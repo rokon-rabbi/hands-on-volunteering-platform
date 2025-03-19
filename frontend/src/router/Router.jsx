@@ -24,6 +24,9 @@ import Home from "../components/HelpRequests";
 import HelpRequests from "../components/HelpRequests";
 import CreateRequest from "../components/CreateRequest";
 import RequestDetails from "../components/RequestDetails";
+import TeamList from "../components/teamModule/TeamList";
+import CreateTeam from "../components/teamModule/CreateTeam";
+import TeamDetails from "../components/teamModule/TeamDetails";
 
 const Layout = () => (
     <div>
@@ -64,6 +67,7 @@ const router = createBrowserRouter([
                 element: <UserRoute />,
                 children: [{ index: true, element: <HelpRequests /> }],
             },
+
             {
                 path: "/request/:id",
                 element: <UserRoute />,
@@ -93,6 +97,23 @@ const router = createBrowserRouter([
                 path: "events",
                 element: <UserRoute />,
                 children: [{ index: true, element: <EventList /> }],
+            },
+            // Team Routes -->
+
+            {
+                path: "/teams",
+                element: <UserRoute />,
+                children: [{ index: true, element: <TeamList /> }],
+            },
+            {
+                path: "/create-team",
+                element: <UserRoute />,
+                children: [{ index: true, element: <CreateTeam /> }],
+            },
+            {
+                path: "/teams/:teamId",
+                element: <UserRoute />,
+                children: [{ index: true, element: <TeamDetails /> }],
             },
             {
                 path: "admin",
