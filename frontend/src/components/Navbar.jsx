@@ -14,6 +14,13 @@ const Navbar = () => {
                 <div className="flex items-center space-x-6">
                     {user ? (
                         <>
+
+                            <NavLink
+                                to="/events"
+                                className="hover:text-yellow-400 transition duration-200"
+                            >
+                                Events Feed
+                            </NavLink>
                             <NavLink
                                 to="/help-requests"
                                 className="hover:text-yellow-400 transition duration-200"
@@ -21,11 +28,18 @@ const Navbar = () => {
                                 Help Requests
                             </NavLink>
                             <NavLink
-                                to="/events"
+                                to="/teams"
                                 className="hover:text-yellow-400 transition duration-200"
                             >
-                                Events Feed
-                            </NavLink></>) : ""}
+                                Teams
+                            </NavLink>
+                            <NavLink
+                                to="/create-team"
+                                className="hover:text-yellow-400 transition duration-200"
+                            >
+                                Create Teams
+                            </NavLink>
+                        </>) : ""}
 
                     {user ? (
                         <div className="flex items-center space-x-6">
